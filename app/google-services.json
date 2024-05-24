@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "370342580909",
+    "firebase_url": "https://fragprac-bdf64-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fragprac-bdf64",
+    "storage_bucket": "fragprac-bdf64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370342580909:android:1843b6f52b0e511877ec24",
+        "android_client_info": {
+          "package_name": "com.example.fragprac"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRPMsiQklUdpeVBw-zoIHjpzxyO_JSGXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
