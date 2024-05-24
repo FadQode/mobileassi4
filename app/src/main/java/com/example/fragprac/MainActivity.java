@@ -1,7 +1,16 @@
 package com.example.fragprac;
 
+import static com.example.fragprac.R.*;
+import static com.example.fragprac.R.id.textPhone;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +39,13 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
 
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new FormFragment())
                 .addToBackStack(null)
                 .commit();
+
+
+
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -51,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
 
+
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
@@ -60,10 +76,11 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
+
         });
 
     }
-
 
 
 

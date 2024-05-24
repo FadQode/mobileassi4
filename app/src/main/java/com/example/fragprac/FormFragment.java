@@ -2,16 +2,24 @@ package com.example.fragprac;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,16 +69,75 @@ public class FormFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        TextView textHelp, textNama, textAlamat;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_form,container, false);
+        TextView textTelp, textNama, textAlamat;
         EditText editNama, editPhone, editAlamat;
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        Button saveButton, cancelButton;
 
-        myRef.setValue("Hello, World!");
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_form, container, false);
+
+        textTelp = view.findViewById(R.id.textTelp);
+        textNama = view.findViewById(R.id.textNama);
+        textAlamat = view.findViewById(R.id.textAlamat);
+        editNama = view.findViewById(R.id.editNama);
+        editPhone = view.findViewById(R.id.editPhone);
+        editAlamat = view.findViewById(R.id.editAlamat);
+        saveButton = view.findViewById(R.id.saveButton);
+        cancelButton = view.findViewById(R.id.cancelButton);
+
+        cancelButton.setOnClickListener(v -> {
+            editNama.setText("");
+            editPhone.setText("");
+            editAlamat.setText("");
+
+        });
+
+        saveButton.setOnClickListener(v -> {
+            String nama = editNama.getText().toString();
+            String phone = editPhone.getText().toString();
+            String alamat = editAlamat.getText().toString();
+            if(TextUtils.isEmpty(nama) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(alamat))
+            {
+                Toast.makeText(getContext(), "Tidak ada field yang boleh kosong", Toast.LENGTH_SHORT).show();
+            }else{
+                masukkanData(nama, phone, alamat);
+                editNama.setText("");
+                editPhone.setText("");
+                editAlamat.setText("");
+            }
+        });
+
+
+
+        return view;
+    }
+
+    private void masukkanData(String name, String phone, String alamat){
+
+
+        HashMap<String, Object> dataHashMap = new HashMap<>();
+        dataHashMap.put("name", name);
+        dataHashMap.put("phone",phone);
+        dataHashMap.put("address", alamat);
+        Pelanggan pelanggan = new Pelanggan(name, alamat, phone);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference dataRef = database.getReference("Pelanggan");
+
+        String key = dataRef.push().getKey();
+        dataHashMap.put("key",key);
+
+
+        assert key != null;
+        dataRef.child(key).setValue(pelanggan).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getContext(), "added", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 }
